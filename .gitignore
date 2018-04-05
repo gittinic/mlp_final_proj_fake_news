@@ -19,7 +19,7 @@
 *.Rproj.user/
 
 # Data files
-*.rds
+*.csv
 
 # produced vignettes
 vignettes/*.html
