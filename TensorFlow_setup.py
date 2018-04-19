@@ -13,8 +13,59 @@ tf.enable_eager_execution()
 print("TensorFlow version: {}".format(tf.VERSION))
 print("Eager execution: {}".format(tf.executing_eagerly()))
 
+import datetime
+import pandas as pd
+import numpy as np
+
 # load in the data
 # replace by owrn own parsing
+
+metadata_file = '/Users/jaspermeijering/Google Drive/a Study/EPA Study Abroad - Carnegie Mellon University/Courses/CMU - 95845 - Applied Analytics The Machine Learning Pipeline/Machine Learning Pipeline Final Project/Data/FalseNews_Code_Data/data/metadata_anon.txt'
+
+# Read meta data
+fin = open(metadata_file, 'r')
+lines = fin.readlines()
+fin.close()
+cascade_id2metadata = {}
+for line in lines:
+    line = line.replace('\n', '')
+    item = eval(line)
+    cascade_id2metadata[item[0]] = item[1]
+
+    # Get static measures
+veracity = []
+virality = []
+depth = []
+breadth = []
+size = []
+verified = []
+nfollowers = []
+nfollowees = []
+engagement = []
+category = []
+day = []
+hour = []
+
+for cascade, metadata in cascade_id2metadata.items():
+    veracity.append(metadata['veracity'])
+    virality.append(metadata['virality'])
+    depth.append(metadata['depth'])
+    breadth.append(metadata['max_breadth'])
+    size.append(metadata['size'])
+    verified.append(metadata['verified_list'][0])
+    nfollowers.append(metadata['num_followers_list'][0])
+    nfollowees.append(metadata['num_followees_list'][0])
+    engagement.append(metadata['engagement_list'][0])
+    category.append(metadata['rumor_category'])
+    day.append(metadata['start_date'].day)
+    hour.append(metadata['start_date'].hour)
+
+# Convert to data frame
+df = pd.DataFrame({'veracity': veracity, 'virality': virality, 'depth': depth, 'breadth': breadth, 'size': size, 'verified': verified, 'nfollowers': nfollowers,
+                   'nfollowees': nfollowees, 'engangement': engagement, 'category': category, 'day': day, 'hour': hour})
+
+# Inspect
+df.head(5)
 
 
 def parse_data(line):
@@ -27,11 +78,19 @@ def parse_data(line):
     return features, label
 
 
+for i in range(len(df))
+random_num = random.random()
+    df[i, train_id] = ifelse(random_num < 0.5, 0, 1)
+
 train_dataset = tf.data.TextLineDataset(train_dataset_fp)
 train_dataset = train_dataset.skip(1)             # skip the first header row
 train_dataset = train_dataset.map(parse_data)      # parse each row
 train_dataset = train_dataset.shuffle(buffer_size=1000)  # randomize
 train_dataset = train_dataset.batch(32)
+
+
+features = dataset.iloc[:, :].values
+labels = dataset.iloc[:, 0].values
 
 # View a single example entry from a batch
 features, label = tfe.Iterator(train_dataset).next()
