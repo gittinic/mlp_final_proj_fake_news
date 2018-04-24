@@ -145,7 +145,7 @@ for (x, y) in tfe.Iterator(test_dataset):
 print("Test set accuracy: {:.3%}".format(test_accuracy.result()))
 
 # Use the trained model to make predictions
-class_ids = ["True news", "Fake news]  # or other way around?
+class_ids = ["True news", "Fake news"]  # or other way around?
 predict_dataset = tf.convert_to_tensor([
 
 ])
